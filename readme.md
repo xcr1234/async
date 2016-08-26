@@ -57,7 +57,8 @@ asyncExecutorsSize参数表示线程池容量，默认值为8。
 
 ```java
      return new ServletCallAble<E>(){
-        pulibc E call() throws Exception{
+        @override
+        public E call() throws Exception{
              //do something.
              //return xxx;
              
