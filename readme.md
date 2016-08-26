@@ -11,7 +11,9 @@
 
 jar包：[async.jar](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/async.jar)，
 
-源码jar包：[async-source.jar](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/async-source.jar)。
+源码jar包：[async-source.jar](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/async-source.jar)
+
+例子：[example.war](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/example.war)
 
 
 #一、线程池
