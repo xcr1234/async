@@ -79,11 +79,11 @@ A：覆盖onComplete方法，第三个参数为输出结果。
 Q：异步过程中的异常如何处理？  
 A：覆盖onError方法，第三个参数为异常Throwable。或者在call中try-catch；当异步过程处理超时时，可以覆盖onTimeout方法。
 - - -
-Q：可否过滤是否进入异步过程，例如检查用户输入？
+Q：可否过滤是否进入异步过程，例如检查用户输入？  
 A：覆盖doAsync方法，返回true则进入异步过程，返回false则不进入。
 - - -
-Q：超时时间如何设置？
+Q：超时时间如何设置？  
 A：执行setTimeout方法或者覆盖getTimeout方法，默认为10秒。
 - - -
-Q：异步过程是否支持跳转（dispatch）？
+Q：异步过程是否支持跳转（dispatch）？  
 A：支持。AsyncContext中有dispatch方法，可以进行跳转，具体参考javax.servlet.AsyncContext。
