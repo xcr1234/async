@@ -9,9 +9,9 @@
 
 #依赖
 
-jar包：[async.jar](dist/async.jar)，
+jar包：[async.jar](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/async.jar)，
 
-源码jar包：[async-source.jar](dist/async-source.jar)。
+源码jar包：[async-source.jar](https://coding.net/u/xcr_abcd/p/async/git/raw/master/dist/async-source.jar)。
 
 
 #一、线程池
