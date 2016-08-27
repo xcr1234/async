@@ -251,12 +251,7 @@ public abstract class AsyncServlet<E> extends HttpServlet implements AsyncEventL
 
     }
 
-    private String ex2str(Throwable throwable) throws IOException{
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        throwable.printStackTrace(printWriter);
-        return stringWriter.toString();
-    }
+
 
     private String date(){
         Date date = new Date();
@@ -278,14 +273,16 @@ public abstract class AsyncServlet<E> extends HttpServlet implements AsyncEventL
         }
 
         PrintWriter out = response.getWriter();
-        out.print("<!DOCTYPE html><html><head><title>Apache Tomcat/8.0.32 - Error report</title><style type=\"text/css\">H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}.line {height: 1px; background-color: #525D76; border: none;}</style> </head><body><h1>HTTP Status 500 - ");
+        out.print("<!DOCTYPE html><html><head><title>Async Servlet - Error report</title><style type=\"text/css\">H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}.line {height: 1px; background-color: #525D76; border: none;}</style> </head><body><h1>HTTP Status 500 - ");
         out.print(throwable.toString());
         out.print("</h1><div class=\"line\"></div><p><b>type</b> Exception report</p><p><b>message</b> <u>");
         out.print(throwable.toString());
-        out.print("</u></p><p><b>description</b> <u>The server encountered an internal error in async servlet.</u></p><p><b>exception</b></p><pre>");
-        out.println(ex2str(throwable));
+        out.print("</u></p><p><b>description</b> <u>");
+        out.print(getServletName());
+        out.print(".</u></p><p><b>exception</b></p><pre>");
+        throwable.printStackTrace(out);
         out.print("</pre><p><b>root cause</b></p><pre>");
-        out.print(ex2str(rootCause));
+        rootCause.printStackTrace(out);
         out.print("</pre><hr class=\"line\"><h3>Async Servlet Exception - ");
         out.print(date());
         out.print("</h3></body></html>");
