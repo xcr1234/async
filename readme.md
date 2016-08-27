@@ -75,13 +75,23 @@ ServletCallAble其实就是Callable，只是可以使用getRequest、getResponse
 #FAQ
 
 Q：为何出现异常java.lang.IllegalStateException: A filter or servlet of the current chain does not support asynchronous operations.？  
-A：Servlet没有配置asyncSupported参数。使用注解配置时，需要配置@WebServlet(asyncSupported = true)；在web.xml中配置时，配置  
+A：Servlet没有配置asyncSupported参数。使用注解配置时，需要配置@WebServlet(asyncSupported = true)；在web.xml中配置时，需要配置：  
 ```xml
     <servlet>
         <servlet-name></servlet-name>
         <servlet-class></servlet-class>
         <async-supported>true</async-supported>
     </servlet>
+```
+
+如果异步的Servlet存在过滤器Filter，则过滤器也应该配置asyncSupported参数。  
+使用注解配置时，需要配置@WebFilter(asyncSupported=true)；在web.xml中配置时，需要配置：  
+```xml
+    <filter>
+        <filter-name></filter-name>
+        <filter-class></filter-class>
+        <async-supported>true</async-supported>
+    </filter>
 ```
 
 - - -
