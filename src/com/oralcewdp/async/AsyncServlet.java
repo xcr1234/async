@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +34,7 @@ public abstract class AsyncServlet<E> extends HttpServlet implements AsyncEventL
 
     private long timeout = 10000L;
 
-    private long start;
+    private Long start;
 
     private ExecutorService execute;
 
@@ -160,10 +161,12 @@ public abstract class AsyncServlet<E> extends HttpServlet implements AsyncEventL
 
     /**
      * 返回异步过程开始到现在经过的毫秒数。
-     *
+     * @return 如果没有开始异步过程，则返回-1。
      */
     public long getAsyncTime(){
-
+        if(start==null){
+            return -1;
+        }
         return System.currentTimeMillis()-start;
     }
 
@@ -262,31 +265,31 @@ public abstract class AsyncServlet<E> extends HttpServlet implements AsyncEventL
     }
 
     private void defaultErrorHandle(ServletCallAble<E> callAble,Throwable throwable) throws IOException {
+        throwable.printStackTrace();
 
         HttpServletResponse response = callAble.getResponse();
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        Throwable rootCause = throwable;
+        while (rootCause.getCause()!=null){
+            rootCause = rootCause.getCause();
+        }
+
         PrintWriter out = response.getWriter();
-        out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \n" +
-                "\"http://www.w3.org/TR/html4/loose.dtd\">");
-        out.println("<html>\n" +
-                "  <head>\n" +
-                "    <title>"+this.getServletName()+"</title>\n" +
-                "  </head>\n" +
-                "  <body>");
-        out.println("<b>async servlet exception:"+throwable.getClass().getName()+" in servlet:"+this.getServletName()+"</b>");
-        out.println("<hr />");
-        out.println("<pre>");
+        out.print("<!DOCTYPE html><html><head><title>Apache Tomcat/8.0.32 - Error report</title><style type=\"text/css\">H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}.line {height: 1px; background-color: #525D76; border: none;}</style> </head><body><h1>HTTP Status 500 - ");
+        out.print(throwable.toString());
+        out.print("</h1><div class=\"line\"></div><p><b>type</b> Exception report</p><p><b>message</b> <u>");
+        out.print(throwable.toString());
+        out.print("</u></p><p><b>description</b> <u>The server encountered an internal error in async servlet.</u></p><p><b>exception</b></p><pre>");
         out.println(ex2str(throwable));
-        out.println("</pre>");
-        out.println("<hr />");
+        out.print("</pre><p><b>root cause</b></p><pre>");
+        out.print(ex2str(rootCause));
+        out.print("</pre><hr class=\"line\"><h3>Async Servlet Exception - ");
         out.print(date());
-        out.print("&nbsp;");
-        out.print(getAsyncTime());
-        out.println(" ms.");
-        out.println(" </body>\n" +
-                "</html>");
-        throwable.printStackTrace();
+        out.print("</h3></body></html>");
+
 
     }
 

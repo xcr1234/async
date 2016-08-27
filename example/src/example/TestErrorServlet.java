@@ -26,7 +26,7 @@ public class TestErrorServlet extends AsyncServlet {
             @Override
             public Object call() throws Exception {
                 Thread.sleep(1000);
-                throw new RuntimeException("测试发生错误");
+                throw new RuntimeException("测试发生错误",new IOException("测试IOException"));
             }
         };
     }
