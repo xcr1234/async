@@ -34,7 +34,7 @@ jar包：[async.jar](https://github.com/xcr1234/async/raw/master/dist/async.jar)
     </listener>
 ```
 
-asyncExecutorsSize参数表示线程池容量，默认值为8。
+asyncExecutorsSize参数表示线程池容量，默认值为（CPU核心数+1）。
 
 方式二
 
